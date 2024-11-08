@@ -1,0 +1,45 @@
+---
+- name: Playbook application
+  hosts: all
+  become: true
+  vars:
+    deployment_path: "/home/ubuntu/app"
+    compose_path: "./docker-compose.yml"
+  roles:
+    - geerlingguy.docker
+  tasks:
+    - name: App update
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+    
+    - name: Install python
+      package:
+        name: 
+          - python3-pip
+        state: present 
+    
+    - name: Install docker
+      pip:
+        name: 
+        - docker<7.0
+        - docker-compose
+        - requests==2.31.0
+    - name: Create directory 
+      file:
+        path: "{{ deployment_path }}"
+        state: directory
+        mode: '0755'
+ 
+    - name: Copy docker
+      copy:
+        src: "{{ compose_path }}"
+        dest: "{{ deployment_path }}"
+ 
+    - name: Run docker-compose 
+      become: true
+      docker_compose:
+        project_src: "{{ deployment_path }}"
+        build: yes
+        debug: yes
+      environment:
+        FRONTEND_IMAGE: "{{ lookup('env','FRONTEND_IMAGE') }}"
+        BACKEND_IMAGE:  "{{ lookup('env','BACKEND_IMAGE') }}"
