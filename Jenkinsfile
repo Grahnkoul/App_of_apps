@@ -10,8 +10,8 @@ pipeline
 	
 	 parameters 
 	 {
-        string(name: 'backendDockerTag', defaultValue: 'lastest', description: 'Backend docker image tag')
-        string(name: 'frontendDockerTag', defaultValue: 'lastest', description: 'Frontend docker image tag')
+        string(name: 'backendDockerTag', defaultValue: 'latest', description: 'Backend docker image tag')
+        string(name: 'frontendDockerTag', defaultValue: 'latest', description: 'Frontend docker image tag')
      }
 	
 	    stages 
