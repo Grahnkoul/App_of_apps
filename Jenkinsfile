@@ -24,10 +24,12 @@ pipeline
             }
         }
 		
-		 stage('Show version') 
-		 {
-            steps {
-                script{
+		stage('Show version') 
+		{
+            steps 
+            {
+                script
+                {
                     currentBuild.description = "Backend: ${backendDockerTag}, Frontend: ${frontendDockerTag}"
                 }
             }
