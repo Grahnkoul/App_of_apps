@@ -7,6 +7,11 @@ pipeline
     {
         label 'agent'
     }
+    tools 
+    {
+        terraform 'Terraform'
+    }
+
 
     environment 
     {
