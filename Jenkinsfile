@@ -75,6 +75,24 @@ pipeline
             }
         }
 
+        stage('Run terraform') 
+        {
+            steps 
+            {
+                dir('Terraform') 
+                {                
+                    git branch: 'main', url: 'https://github.com/Grahnkoul/Terraform'
+                    withAWS(credentials:'AWS', region: 'us-east-1') 
+                    {
+                            sh 'terraform init -backend-config=bucket=adam-jozefowicz-panda-devops-core-19'
+                            sh 'terraform apply -auto-approve -var bucket_name=adam-jozefowicz-panda-devops-core-19'
+                            
+                    } 
+                }
+            }
+        }
+
+
 	}
     
     post 
